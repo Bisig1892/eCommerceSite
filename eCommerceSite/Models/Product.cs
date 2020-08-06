@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -10,6 +11,7 @@ namespace eCommerceSite.Models
     /// </summary>
     public class Product
     {
+        [Key] // Primary key in database
         public int ProductId { get; set; }
         /// <summary>
         /// The consumer facing name of the product
