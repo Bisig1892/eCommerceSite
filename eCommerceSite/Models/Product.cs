@@ -20,6 +20,7 @@ namespace eCommerceSite.Models
         /// <summary>
         /// The retail price as US currency
         /// </summary>
+        [DataType(DataType.Currency)]
         public double Price { get; set; }
         /// <summary>
         /// Category the product falls under. EX. Electronics, Furniture, etc.
