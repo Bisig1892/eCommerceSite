@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using eCommerceSite.Data;
 using eCommerceSite.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 
 namespace eCommerceSite.Controllers
@@ -19,12 +20,28 @@ namespace eCommerceSite.Controllers
             _context = context;
         }
         /// <summary>
-        /// Displays a view that lists all products
+        /// Displays a view that lists a page of products
         /// </summary>
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? id)
         {
+            // https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/operators/null-coalescing-operator#:~:text=The%20null%2Dcoalescing%20operator%20%3F%3F,operand%20evaluates%20to%20non%2Dnull.
+            int pageNum = id ?? 1;
+            const int PageSize = 3;
+            ViewData["CurrentPage"] = pageNum;
+
+            int numProducts = await (from p in _context.Products
+                              select p).CountAsync();
+
+            int totalPages = (int)Math.Ceiling((double)numProducts / PageSize);
+
+            ViewData["MaxPage"] = totalPages;
             // Get all products from database
-            List<Product> products = await _context.Products.ToListAsync();
+            List<Product> products = await (from p in _context.Products
+                                            orderby p.Title ascending
+                                            select p)
+                                            .Skip(PageSize * (pageNum - 1)) // Skip() must be before Take()
+                                            .Take(PageSize)
+                                            .ToListAsync();
             // Send list of products to view to be displayed
             return View(products);
         }
