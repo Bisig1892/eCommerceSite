@@ -23,16 +23,21 @@ namespace eCommerceSite.Models
     public class RegisterViewModel
     {
         [Required]
+        [EmailAddress]
+        [StringLength(200)]
         public string Email { get; set; }
 
+        [Display(Name = "Confirm Email")]
         [Required]
         [Compare(nameof(Email))]
         public string ConfirmEmail { get; set; }
         
         [Required]
         [DataType(DataType.Password)]
+        [StringLength(120, MinimumLength = 6, ErrorMessage = "Password must be between {2} and {1} characters.")]
         public string Password { get; set; }
 
+        [Display(Name = "Confirm Password")]
         [Required]
         [DataType(DataType.Password)]
         [Compare(nameof(Password))]
