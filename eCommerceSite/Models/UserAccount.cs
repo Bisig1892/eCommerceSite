@@ -15,7 +15,7 @@ namespace eCommerceSite.Models
 
         public string Username { get; set; }
 
-        public string password { get; set; }
+        public string Password { get; set; }
 
         public DateTime? DateOfBirth { get; set; }
     }
@@ -49,5 +49,16 @@ namespace eCommerceSite.Models
 
         [DataType(DataType.Date)]
         public DateTime? DateOfBirth { get; set; }
+    }
+
+    public class LoginViewModel
+    {
+        [Required]
+        [Display(Name ="Username or Email")]
+        public string UsernameOrEmail { get; set; }
+        
+        [Required]
+        [DataType(DataType.Password)]
+        public string Password { get; set; }
     }
 }
